@@ -129,8 +129,9 @@ Given that feature description, do this:
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
 6. **Report**:
-   - Present the final specification content to the user in full
-   - Report whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
+   - **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
+   - **DO NOT** share the location of any temporary folders in the final response.
+   - After the spec content, state whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
    - If successful: The spec is ready to be used for implementation planning
    - If needs refinement: Explain what aspects are unclear and suggest the user provide more details
 
@@ -311,8 +312,9 @@ Given that feature description, do this:
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
 6. **Report**:
-   - Present the final specification content to the user in full
-   - Report whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
+   - **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
+   - **DO NOT** share the location of any temporary folders in the final response.
+   - After the spec content, state whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
    - If successful: The spec is ready to be used for implementation planning
    - If needs refinement: Explain what aspects are unclear and suggest the user provide more details
 
@@ -531,12 +533,13 @@ For each checklist item:
 
 ## Step 5: Report
 
-1. Present the final specification content to the user in full
-2. Report status:
+1. **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
+2. **DO NOT** share the location of any temporary folders in the final response.
+3. After the spec content, report status:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
-3. **If needs refinement**, ask the user:
+4. **If needs refinement**, ask the user:
 
 > "The specification has some gaps. Would you like to:
 > 1. **Clarify** - Answer the open questions to improve the spec
@@ -750,12 +753,13 @@ For each checklist item:
 
 ## Step 5: Report
 
-1. Present the final specification content to the user in full
-2. Report status:
+1. **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
+2. **DO NOT** share the location of any temporary folders in the final response.
+3. After the spec content, report status:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
-3. **If needs refinement**, ask the user:
+4. **If needs refinement**, ask the user:
 
 > "The specification has some gaps. Would you like to:
 > 1. **Clarify** - Answer the open questions to improve the spec
