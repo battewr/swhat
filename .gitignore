@@ -37,6 +37,9 @@ htmlcov/
 # swhat workspace (user-specific specs)
 .swhat/
 
+# Temporary files
+tmp/
+
 # Credentials
 claude_setup_creds.md
 *_creds.md
