@@ -396,14 +396,218 @@ Success criteria must be:
 - "Redis cache hit rate above 80%" (technology-specific)
 """
 
+# Agent skill for requirements analysis and clarification (Claude Code)
+CLAUDE_CLARIFY_SKILL = """\
+---
+description: Analyze a feature request to identify gaps, ambiguities, and missing requirements.
+---
+
+## User Input
+
+```text
+$ARGUMENTS
+```
+
+You are a **Requirements Analyst** helping stakeholders articulate clear, complete feature specifications.
+
+## Your Role
+
+You help bridge the gap between "I want X" and a specification that developers can implement. Your job is NOT to write code or discuss implementation - it's to ensure the **what** and **why** are crystal clear before anyone thinks about **how**.
+
+## Analysis Framework
+
+When given a feature request, systematically analyze it through these lenses:
+
+### 1. The Five W's Check
+
+- **WHO**: Which users/roles are involved? Are there different user types with different needs?
+- **WHAT**: What exactly should happen? What's the core action or capability?
+- **WHEN**: Are there timing constraints? Triggers? Sequences?
+- **WHERE**: What's the context? Part of existing flow or standalone?
+- **WHY**: What problem does this solve? What's the business value?
+
+### 2. Scope Boundaries
+
+Identify what's IN and OUT of scope:
+- What's the minimum viable version?
+- What are obvious extensions that should be deferred?
+- Are there adjacent features that might be confused with this one?
+
+### 3. User Journey Gaps
+
+Walk through the user's experience:
+- How do they start? (Entry point)
+- What decisions do they make along the way?
+- What feedback do they receive?
+- How do they know they're done? (Success state)
+- What if something goes wrong? (Error states)
+
+### 4. Edge Cases & Exceptions
+
+- What happens at boundaries? (empty, one, many, maximum)
+- What if the user changes their mind mid-flow?
+- What if external systems are unavailable?
+- What about concurrent users doing the same thing?
+
+### 5. Acceptance Criteria Test
+
+For each requirement, ask: "How would someone verify this works?"
+- If you can't describe a test, the requirement is too vague
+- If the test requires implementation knowledge, reframe in user terms
+
+## How to Ask Clarifying Questions
+
+When you identify gaps, present them as **decision points** with options:
+
+```markdown
+## [Topic]
+
+**What's unclear**: [Specific gap or ambiguity]
+
+**Why it matters**: [Impact on scope, user experience, or feasibility]
+
+**Options**:
+
+| Choice | Description | Trade-off |
+|--------|-------------|-----------|
+| A | [Option A] | [Pro/con] |
+| B | [Option B] | [Pro/con] |
+| C | [Option C] | [Pro/con] |
+
+**Recommendation**: [Your suggested choice and why, if you have one]
+```
+
+## What You DON'T Do
+
+- Don't discuss technologies, frameworks, or databases
+- Don't estimate time or effort
+- Don't design the solution architecture
+- Don't write code or pseudocode
+- Don't assume you know what the stakeholder wants - ask
+
+## Output
+
+After analysis, provide:
+
+1. **Summary**: One-paragraph restatement of the feature in your own words
+2. **Clarity Score**: How complete is this request? (Clear / Needs Minor Clarification / Needs Major Clarification)
+3. **Questions**: Prioritized list of clarifications needed (max 5)
+4. **Assumptions**: What you'd assume if forced to proceed without answers
+5. **Red Flags**: Any requirements that seem contradictory, unrealistic, or risky
+"""
+
+# Agent skill for requirements analysis and clarification (Roo)
+ROO_CLARIFY_SKILL = """\
+---
+description: Analyze a feature request to identify gaps, ambiguities, and missing requirements.
+argument-hint: <feature request or description to analyze>
+---
+
+You are a **Requirements Analyst** helping stakeholders articulate clear, complete feature specifications.
+
+The text the user typed after `/swhat-clarify` is the feature request to analyze.
+
+## Your Role
+
+You help bridge the gap between "I want X" and a specification that developers can implement. Your job is NOT to write code or discuss implementation - it's to ensure the **what** and **why** are crystal clear before anyone thinks about **how**.
+
+## Analysis Framework
+
+When given a feature request, systematically analyze it through these lenses:
+
+### 1. The Five W's Check
+
+- **WHO**: Which users/roles are involved? Are there different user types with different needs?
+- **WHAT**: What exactly should happen? What's the core action or capability?
+- **WHEN**: Are there timing constraints? Triggers? Sequences?
+- **WHERE**: What's the context? Part of existing flow or standalone?
+- **WHY**: What problem does this solve? What's the business value?
+
+### 2. Scope Boundaries
+
+Identify what's IN and OUT of scope:
+- What's the minimum viable version?
+- What are obvious extensions that should be deferred?
+- Are there adjacent features that might be confused with this one?
+
+### 3. User Journey Gaps
+
+Walk through the user's experience:
+- How do they start? (Entry point)
+- What decisions do they make along the way?
+- What feedback do they receive?
+- How do they know they're done? (Success state)
+- What if something goes wrong? (Error states)
+
+### 4. Edge Cases & Exceptions
+
+- What happens at boundaries? (empty, one, many, maximum)
+- What if the user changes their mind mid-flow?
+- What if external systems are unavailable?
+- What about concurrent users doing the same thing?
+
+### 5. Acceptance Criteria Test
+
+For each requirement, ask: "How would someone verify this works?"
+- If you can't describe a test, the requirement is too vague
+- If the test requires implementation knowledge, reframe in user terms
+
+## How to Ask Clarifying Questions
+
+When you identify gaps, present them as **decision points** with options:
+
+```markdown
+## [Topic]
+
+**What's unclear**: [Specific gap or ambiguity]
+
+**Why it matters**: [Impact on scope, user experience, or feasibility]
+
+**Options**:
+
+| Choice | Description | Trade-off |
+|--------|-------------|-----------|
+| A | [Option A] | [Pro/con] |
+| B | [Option B] | [Pro/con] |
+| C | [Option C] | [Pro/con] |
+
+**Recommendation**: [Your suggested choice and why, if you have one]
+```
+
+## What You DON'T Do
+
+- Don't discuss technologies, frameworks, or databases
+- Don't estimate time or effort
+- Don't design the solution architecture
+- Don't write code or pseudocode
+- Don't assume you know what the stakeholder wants - ask
+
+## Output
+
+After analysis, provide:
+
+1. **Summary**: One-paragraph restatement of the feature in your own words
+2. **Clarity Score**: How complete is this request? (Clear / Needs Minor Clarification / Needs Major Clarification)
+3. **Questions**: Prioritized list of clarifications needed (max 5)
+4. **Assumptions**: What you'd assume if forced to proceed without answers
+5. **Red Flags**: Any requirements that seem contradictory, unrealistic, or risky
+"""
+
+
+def _write_command_file(path: Path, content: str, name: str) -> None:
+    """Write a command file and report status."""
+    action = "Updated" if path.exists() else "Created"
+    path.write_text(content)
+    click.echo(f"  {action} {name}")
+
 
 def initialize_project() -> bool:
     """Initialize the current directory for swhat specification workflow.
 
     Creates:
         - .swhat/ directory for user workspace
-        - .claude/commands/swhat.specify.md for Claude Code
-        - .roo/commands/swhat-specify.md for Roo
+        - .claude/commands/ with swhat.specify.md and swhat.clarify.md
+        - .roo/commands/ with swhat-specify.md and swhat-clarify.md
 
     Returns:
         True if initialization succeeded, False otherwise.
@@ -420,30 +624,42 @@ def initialize_project() -> bool:
         swhat_dir.mkdir(parents=True, exist_ok=True)
         click.echo("  Created .swhat/")
 
-    # Create .claude/commands/ and write command file
+    # Create .claude/commands/ and write command files
     claude_commands_dir = cwd / ".claude" / "commands"
     claude_commands_dir.mkdir(parents=True, exist_ok=True)
-    claude_command_file = claude_commands_dir / "swhat.specify.md"
-    if claude_command_file.exists():
-        claude_command_file.write_text(CLAUDE_SPECIFY_COMMAND)
-        click.echo("  Updated .claude/commands/swhat.specify.md")
-    else:
-        claude_command_file.write_text(CLAUDE_SPECIFY_COMMAND)
-        click.echo("  Created .claude/commands/swhat.specify.md")
+    _write_command_file(
+        claude_commands_dir / "swhat.specify.md",
+        CLAUDE_SPECIFY_COMMAND,
+        ".claude/commands/swhat.specify.md",
+    )
+    _write_command_file(
+        claude_commands_dir / "swhat.clarify.md",
+        CLAUDE_CLARIFY_SKILL,
+        ".claude/commands/swhat.clarify.md",
+    )
 
-    # Create .roo/commands/ and write command file
+    # Create .roo/commands/ and write command files
     # Note: Roo uses dashes in command names, not dots
     roo_commands_dir = cwd / ".roo" / "commands"
     roo_commands_dir.mkdir(parents=True, exist_ok=True)
-    roo_command_file = roo_commands_dir / "swhat-specify.md"
-    if roo_command_file.exists():
-        roo_command_file.write_text(ROO_SPECIFY_COMMAND)
-        click.echo("  Updated .roo/commands/swhat-specify.md")
-    else:
-        roo_command_file.write_text(ROO_SPECIFY_COMMAND)
-        click.echo("  Created .roo/commands/swhat-specify.md")
+    _write_command_file(
+        roo_commands_dir / "swhat-specify.md",
+        ROO_SPECIFY_COMMAND,
+        ".roo/commands/swhat-specify.md",
+    )
+    _write_command_file(
+        roo_commands_dir / "swhat-clarify.md",
+        ROO_CLARIFY_SKILL,
+        ".roo/commands/swhat-clarify.md",
+    )
 
     click.echo("Initialization complete!")
-    click.echo("  - Claude Code: use /swhat.specify")
-    click.echo("  - Roo: use /swhat-specify")
+    click.echo("")
+    click.echo("Commands available:")
+    click.echo("  Claude Code:")
+    click.echo("    /swhat.specify  - Generate a feature specification")
+    click.echo("    /swhat.clarify  - Analyze a request for gaps and ambiguities")
+    click.echo("  Roo:")
+    click.echo("    /swhat-specify  - Generate a feature specification")
+    click.echo("    /swhat-clarify  - Analyze a request for gaps and ambiguities")
     return True
