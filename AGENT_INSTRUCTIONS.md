@@ -48,15 +48,55 @@ Example prompts that trigger automatic specification:
 - "Build a REST API for managing orders"
 - "Create a notification system"
 
-### Manual Specification Access
+### Manual Commands
 
-Use the `/swhat.specify` command for direct access to the specification engine:
+#### `/swhat.specify`
+
+Use for direct access to the specification engine:
 
 ```
 /swhat.specify <feature-description>
 ```
 
-This creates or updates a feature specification from your natural language description.
+This creates or updates a feature specification from your natural language description in `.swhat/<feature>/spec.md`.
+
+#### `/swhat.plan`
+
+Use after specification to generate an implementation plan:
+
+```
+/swhat.plan
+```
+
+This reads the current spec and generates a technical implementation plan in `.swhat/<feature>/plan.md`, including:
+- Architecture decisions
+- File changes required
+- Implementation sequence
+- Risk considerations
+
+### Agent Skills (Automatic Detection)
+
+The `swhat-feature-workflow` skill monitors your conversation and automatically activates when it detects complex feature requests. This happens transparently - you don't need to invoke any command.
+
+**What triggers automatic detection:**
+- Requests to "implement", "build", "create", or "add" new functionality
+- Multi-step features requiring architectural decisions
+- Features that benefit from upfront planning
+
+**What the skill does:**
+1. Pauses before writing code
+2. Asks clarifying questions about requirements
+3. Generates a specification for your approval
+4. Optionally generates an implementation plan
+5. Proceeds with implementation only after confirmation
+
+**When it does NOT activate:**
+- Bug fixes
+- Small tweaks or configuration changes
+- Documentation updates
+- Simple refactoring
+
+You can always bypass automatic detection by starting your request with "just" or "quickly" (e.g., "just add a console.log").
 
 ## Best Practices
 
