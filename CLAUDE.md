@@ -108,6 +108,8 @@ src/swhat/
 ```
 
 ## Active Technologies
+- Python 3.10+ + Click 8.0+ (existing CLI framework) (001-template-command)
+- N/A (templates embedded in Python source as string constants) (001-template-command)
 
 - Python 3.10+ with Click 8.0+ for CLI framework
 

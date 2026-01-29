@@ -1,6 +1,10 @@
 """CLI entry point for swhat."""
 
+import sys
+
 import click
+
+from swhat.templates import get_template, list_templates
 
 
 @click.group(invoke_without_command=True)
@@ -17,6 +21,45 @@ def main(ctx: click.Context, help: bool) -> None:
     """
     if help or ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
+
+
+@main.command()
+@click.argument("name", required=False, default=None)
+@click.option("--list", "-l", "list_flag", is_flag=True, help="List available templates.")
+def template(name: str | None, list_flag: bool) -> None:
+    """Output a specification template.
+
+    If NAME is provided, outputs the template content to stdout.
+    If no NAME is provided or --list is used, lists available templates.
+
+    Examples:
+
+        swhat template specification
+
+        swhat template specification-checklist
+
+        swhat template --list
+    """
+    # Show list if --list flag or no name provided
+    if list_flag or name is None or name.strip() == "":
+        click.echo("Available templates:")
+        for template_name, description in list_templates():
+            click.echo(f"  {template_name:<25} {description}")
+        return
+
+    # Look up template by name (case-insensitive)
+    result = get_template(name)
+    if result is None:
+        click.echo(f"Error: Template '{name}' not found.", err=True)
+        click.echo("", err=True)
+        click.echo("Available templates:", err=True)
+        for template_name, description in list_templates():
+            click.echo(f"  {template_name:<25} {description}", err=True)
+        sys.exit(1)
+
+    # Output template content to stdout
+    content, _ = result
+    click.echo(content)
 
 
 if __name__ == "__main__":
