@@ -35,8 +35,6 @@ cd /path/to/your/project
 swhat init
 ```
 
-This creates the necessary `.specify/` directory structure and automatically installs the swhat commands and skills for both **Claude CLI** and **Roo**.
-
 ## Usage
 
 The following commands and skills are executed within **Claude CLI** or **Roo** during an agentic coding session.
