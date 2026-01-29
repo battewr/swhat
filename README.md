@@ -2,6 +2,27 @@
 
 Specification-driven development CLI - Transform natural language feature descriptions into AI-implementable execution plans.
 
+## Quick Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/battewr/swhat.git
+cd swhat
+
+# 2. Build and install
+./clean_build.sh        # Unix/macOS
+.\clean_build.ps1       # Windows PowerShell
+
+# 3. Initialize swhat in your project
+cd /path/to/your/project
+swhat init
+
+# 4. Launch Claude Code or Roo from your project root
+claude                  # or roo
+```
+
+That's it! The AI agent will now have access to `/swhat.specify` and `/swhat.plan` commands (and complex features will automatically be detected by Agent Skills and offer to provide specifications/plans).
+
 ## Installation
 
 ### Prerequisites
