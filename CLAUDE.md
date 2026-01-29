@@ -57,26 +57,32 @@ ruff format src/
 ```bash
 swhat --help
 swhat --version
+swhat init                    # Initialize project for swhat workflow
+swhat template --list         # List available templates
+swhat template specification  # Output specification template
+swhat template plan           # Output plan template
 ```
 
 ## Architecture
 
 This project uses the **Specify** workflow template. The development flow is:
 
-1. `/speckit.specify <description>` - Create feature spec from natural language
-2. `/speckit.plan` - Generate technical plan with research, data models, contracts
-3. `/speckit.tasks` - Break plan into executable task list
-4. `/speckit.implement` - Execute tasks phase by phase
+1. `/swhat.specify <description>` - Create feature spec from natural language
+2. `/swhat.plan` - Generate technical implementation plan
+3. Implementation - Execute the plan (manual or via Option 3 in Next Steps)
 
 ### Key Directories
 
 - `src/swhat/` - Main package source code
   - `__init__.py` - Package version
   - `cli.py` - CLI entry point (Click-based)
+  - `init.py` - Project initialization
+  - `templates.py` - Embedded templates
+  - `commands/` - Agent command/skill content files
 - `.specify/memory/constitution.md` - Project principles and quality gates (read this first)
 - `.specify/templates/` - Templates for specs, plans, tasks
-- `.claude/commands/` - Slash command definitions for the workflow
-- `specs/<###-feature>/` - Feature-specific artifacts (spec.md, plan.md, tasks.md, etc.)
+- `.claude/commands/` - Slash command definitions (swhat.specify.md, swhat.plan.md)
+- `.swhat/<feature>/` - Feature-specific artifacts (spec.md, plan.md, etc.)
 
 ### Constitution Principles
 
@@ -103,8 +109,17 @@ Before merging: installation must work (`uv pip install .`), CLI commands must n
 
 ```
 src/swhat/
-├── __init__.py    # Package version (__version__ = "0.1.0")
-└── cli.py         # CLI entry point with Click group
+├── __init__.py    # Package version (__version__ = "0.3.0")
+├── cli.py         # CLI entry point with Click group
+├── init.py        # Project initialization logic
+├── templates.py   # Embedded template content
+└── commands/      # Agent command/skill content
+    ├── claude_specify_command.py
+    ├── claude_plan_command.py
+    ├── claude_feature_skill.py
+    ├── roo_specify_command.py
+    ├── roo_plan_command.py
+    └── roo_feature_skill.py
 ```
 
 ## Active Technologies

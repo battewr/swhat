@@ -53,15 +53,23 @@ Feature Description → Specification → Plan → Tasks → Implementation
 
 ### Slash Commands (for AI agents)
 
+**swhat commands** (installed via `swhat init`):
+
+| Platform | Command | Purpose |
+|----------|---------|---------|
+| Claude Code | `/swhat.specify <desc>` | Create feature spec from natural language |
+| Claude Code | `/swhat.plan` | Generate technical implementation plan |
+| Roo Code | `/swhat-specify <desc>` | Create feature spec from natural language |
+| Roo Code | `/swhat-plan` | Generate technical implementation plan |
+
+**Legacy speckit commands** (if using speckit templates):
+
 | Command | Purpose |
 |---------|---------|
 | `/speckit.specify <desc>` | Create feature spec from natural language |
-| `/speckit.clarify` | Identify and resolve unclear spec areas |
 | `/speckit.plan` | Generate technical implementation plan |
 | `/speckit.tasks` | Break plan into executable task list |
 | `/speckit.implement` | Execute tasks phase by phase |
-| `/speckit.analyze` | Cross-artifact consistency check |
-| `/speckit.checklist` | Generate custom feature checklist |
 
 ### Workflow Artifacts
 
@@ -98,7 +106,14 @@ swhat/
 │   ├── __init__.py      # Package version
 │   ├── cli.py           # CLI entry point (Click-based)
 │   ├── templates.py     # Embedded template content
-│   └── init.py          # Project initialization logic
+│   ├── init.py          # Project initialization logic
+│   └── commands/        # Agent command/skill content
+│       ├── claude_specify_command.py
+│       ├── claude_plan_command.py
+│       ├── claude_feature_skill.py
+│       ├── roo_specify_command.py
+│       ├── roo_plan_command.py
+│       └── roo_feature_skill.py
 ├── .specify/
 │   ├── memory/
 │   │   └── constitution.md  # Project principles (READ FIRST)
@@ -125,6 +140,7 @@ swhat init                # Initialize project for swhat workflow
 
 - `specification` - Feature specification template
 - `specification-checklist` - Spec quality validation checklist
+- `plan` - Implementation plan template
 
 ## Build Commands
 
@@ -159,9 +175,11 @@ Templates are stored as string constants in `src/swhat/templates.py`, not extern
 
 `swhat init` creates:
 - `.swhat/` - User workspace directory
-- `.claude/commands/swhat.specify.md` - Claude Code command
+- `.claude/commands/swhat.specify.md` - Claude Code specify command
+- `.claude/commands/swhat.plan.md` - Claude Code plan command
 - `.claude/skills/swhat-feature-workflow/SKILL.md` - Auto-trigger skill
-- `.roo/commands/swhat-specify.md` - Roo Code command
+- `.roo/commands/swhat-specify.md` - Roo Code specify command
+- `.roo/commands/swhat-plan.md` - Roo Code plan command
 - `.roo/skills/swhat-feature-workflow/SKILL.md` - Auto-trigger skill
 
 ### Specification Guidelines

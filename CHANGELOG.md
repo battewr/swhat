@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-01-28
+
+### Added
+
+- **Plan command**: New `/swhat.plan` (Claude) and `/swhat-plan` (Roo) commands to create implementation plans from specifications
+- **Plan workflow**: Multi-phase planning with prerequisite spec check, context loading, research, and design phases
+
+### Changed
+
+- **Option 2 now functional**: "Help me map out how to accomplish this" now invokes the plan command instead of showing "Coming Soon"
+- **Refactored command storage**: Extracted all command/skill strings from `init.py` into separate files under `src/swhat/commands/` for better maintainability
+
+### Refactored
+
+- Created `src/swhat/commands/` package with individual files:
+  - `claude_specify_command.py`, `roo_specify_command.py`
+  - `claude_plan_command.py`, `roo_plan_command.py`
+  - `claude_feature_skill.py`, `roo_feature_skill.py`
+- Reduced `init.py` from ~1450 lines to ~115 lines
+
 ## [0.2.0] - 2026-01-28
 
 ### Added

@@ -74,7 +74,26 @@ swhat --help
 
 # Show version
 swhat --version
+
+# Initialize project for swhat workflow
+swhat init
+
+# List available templates
+swhat template --list
+
+# Output a template
+swhat template specification
+swhat template plan
 ```
+
+### AI Agent Commands (after `swhat init`)
+
+| Platform | Command | Description |
+|----------|---------|-------------|
+| Claude Code | `/swhat.specify <desc>` | Create feature specification |
+| Claude Code | `/swhat.plan` | Create implementation plan |
+| Roo Code | `/swhat-specify <desc>` | Create feature specification |
+| Roo Code | `/swhat-plan` | Create implementation plan |
 
 ## Development
 
@@ -133,10 +152,18 @@ ruff format src/
 ### Project Structure
 
 ```
-src/
-└── swhat/
-    ├── __init__.py      # Package version
-    └── cli.py           # CLI entry point
+src/swhat/
+├── __init__.py      # Package version
+├── cli.py           # CLI entry point
+├── init.py          # Project initialization
+├── templates.py     # Embedded templates
+└── commands/        # Agent command content
+    ├── claude_specify_command.py
+    ├── claude_plan_command.py
+    ├── claude_feature_skill.py
+    ├── roo_specify_command.py
+    ├── roo_plan_command.py
+    └── roo_feature_skill.py
 ```
 
 ## License
