@@ -20,6 +20,22 @@ When the user asks you to implement, build, create, or add a **new feature**, fo
 
 ---
 
+## Step 0: Confirm Specification Attempt
+
+Before proceeding, ask the user:
+
+> "Would you like to proceed with a detailed specification attempt for this feature?"
+
+**If user chooses No**:
+- Do NOT proceed with the specification workflow
+- Respond: "Understood. Proceeding with original ask..."
+- Proceed with the user's original request without the specification workflow
+
+**If user chooses Yes**:
+- Proceed to Step 1
+
+---
+
 ## Step 1: Generate Feature Short Name
 
 Create a concise short name (2-4 words) for the feature:
