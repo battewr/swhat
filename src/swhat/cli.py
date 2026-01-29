@@ -4,8 +4,8 @@ import sys
 
 import click
 
-from swhat.init import initialize_project
-from swhat.templates import get_template, list_templates
+from swhat.init_cli import initialize_project
+from swhat.template_cli import get_template, list_templates
 
 
 @click.group(invoke_without_command=True)

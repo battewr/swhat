@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "swhat"
-version = "0.3.1"
+version = "0.3.2"
 description = "Specification-driven development CLI - Transform natural language feature descriptions into AI-implementable execution plans"
 readme = "README.md"
 license = "MIT"

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2026-01-28
+
+### Refactored
+
+- Extracted template content from `templates.py` into `src/swhat/templates/` package
+  - `spec_template.py`, `checklist_template.py`, `plan_template.py`
+- Renamed `templates.py` → `template_cli.py` (registry and lookup only)
+- Renamed `init.py` → `init_cli.py` (avoid potential conflicts with `__init__.py`)
+
 ## [0.3.1] - 2026-01-28
 
 ### Added
