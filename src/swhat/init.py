@@ -553,6 +553,15 @@ For each checklist item:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
+4. **If needs refinement**, ask the user:
+
+> "The specification has some gaps. Would you like to:
+> 1. **Clarify** - Answer the open questions to improve the spec
+> 2. **Proceed anyway** - Start implementation with current spec (may require changes later)
+> 3. **Abandon** - Cancel this feature request"
+
+If user chooses to proceed anyway, acknowledge the risks and begin implementation.
+
 ---
 
 ## Guidelines
@@ -763,6 +772,15 @@ For each checklist item:
 3. Report status:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
+
+4. **If needs refinement**, ask the user:
+
+> "The specification has some gaps. Would you like to:
+> 1. **Clarify** - Answer the open questions to improve the spec
+> 2. **Proceed anyway** - Start implementation with current spec (may require changes later)
+> 3. **Abandon** - Cancel this feature request"
+
+If user chooses to proceed anyway, acknowledge the risks and begin implementation.
 
 ---
 
