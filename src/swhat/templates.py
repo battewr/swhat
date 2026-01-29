@@ -10,7 +10,6 @@ TemplateEntry = tuple[str, str]
 SPEC_TEMPLATE_CONTENT = """\
 # Feature Specification: [FEATURE NAME]
 
-**Feature Branch**: `[###-feature-name]`
 **Created**: [DATE]
 **Status**: Draft
 **Input**: User description: "$ARGUMENTS"

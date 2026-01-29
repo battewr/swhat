@@ -29,7 +29,7 @@ The text the user typed after `/swhat.specify` in the triggering message **is** 
 
 Given that feature description, do this:
 
-1. **Generate a concise short name** (2-4 words) for the branch:
+1. **Generate a concise short name** (2-4 words) for the feature directory:
    - Analyze the feature description and extract the most meaningful keywords
    - Create a 2-4 word short name that captures the essence of the feature
    - Use action-noun format when possible (e.g., "add-user-auth", "fix-payment-bug")
@@ -43,16 +43,9 @@ Given that feature description, do this:
      - "Create a dashboard for analytics" -> "analytics-dashboard_j6h4f2d9s1l8"
      - "Fix payment processing timeout bug" -> "fix-payment-timeout_c5v3b7n9m2k4"
 
-2. **Check for existing branches before creating new one**:
+2. Retrieve the specification template by running `swhat template specification` to understand required sections.
 
-   a. You must only ever run this script once per feature
-   b. The JSON is provided in the terminal as output - always refer to it to get the actual content you're looking for
-   c. The JSON output will contain BRANCH_NAME and SPEC_FILE paths
-   d. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\\''m Groot' (or double-quote if possible: "I'm Groot")
-
-3. Retrieve the specification template by running `swhat template specification` to understand required sections.
-
-4. Follow this execution flow:
+3. Follow this execution flow:
 
     1. Parse user description from Input
        If empty: ERROR "No feature description provided"
@@ -78,9 +71,9 @@ Given that feature description, do this:
     7. Identify Key Entities (if data involved)
     8. Return: SUCCESS (spec ready for planning)
 
-5. Write the specification to `.swhat/{FEATURE_SHORT_NAME}/{SPEC_FILE}` using the template structure, replacing placeholders with concrete details derived from the feature description (arguments) while preserving section order and headings.
+4. Write the specification to `.swhat/{FEATURE_SHORT_NAME}/{SPEC_FILE}` using the template structure, replacing placeholders with concrete details derived from the feature description (arguments) while preserving section order and headings.
 
-6. **Specification Quality Validation**: After writing the initial spec, validate it against quality criteria:
+5. **Specification Quality Validation**: After writing the initial spec, validate it against quality criteria:
 
    a. **Create Spec Quality Checklist**: Retrieve the checklist template by running `swhat template specification-checklist` and write it to `.swhat/{FEATURE_SHORT_NAME}/requirements.md`, replacing placeholders with feature-specific values.
 
@@ -90,7 +83,7 @@ Given that feature description, do this:
 
    c. **Handle Validation Results**:
 
-      - **If all items pass**: Mark checklist complete and proceed to step 6
+      - **If all items pass**: Mark checklist complete and proceed to step 5
 
       - **If items fail (excluding [NEEDS CLARIFICATION])**:
         1. List the failing items and specific issues
@@ -135,8 +128,7 @@ Given that feature description, do this:
 
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
-7. **Cleanup and Report**:
-   - Delete the temporary files: `.swhat/{FEATURE_SHORT_NAME}/{SPEC_FILE}` and `.swhat/{FEATURE_SHORT_NAME}/requirements.md`
+6. **Report**:
    - Present the final specification content to the user in full
    - Report whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
    - If successful: The spec is ready to be used for implementation planning
@@ -219,7 +211,7 @@ The text the user typed after `/swhat-specify` in the triggering message **is** 
 
 Given that feature description, do this:
 
-1. **Generate a concise short name** (2-4 words) for the branch:
+1. **Generate a concise short name** (2-4 words) for the feature directory:
    - Analyze the feature description and extract the most meaningful keywords
    - Create a 2-4 word short name that captures the essence of the feature
    - Use action-noun format when possible (e.g., "add-user-auth", "fix-payment-bug")
@@ -233,16 +225,9 @@ Given that feature description, do this:
      - "Create a dashboard for analytics" -> "analytics-dashboard_j6h4f2d9s1l8"
      - "Fix payment processing timeout bug" -> "fix-payment-timeout_c5v3b7n9m2k4"
 
-2. **Check for existing branches before creating new one**:
+2. Retrieve the specification template by running `swhat template specification` to understand required sections.
 
-   a. You must only ever run this script once per feature
-   b. The JSON is provided in the terminal as output - always refer to it to get the actual content you're looking for
-   c. The JSON output will contain BRANCH_NAME and SPEC_FILE paths
-   d. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\\''m Groot' (or double-quote if possible: "I'm Groot")
-
-3. Retrieve the specification template by running `swhat template specification` to understand required sections.
-
-4. Follow this execution flow:
+3. Follow this execution flow:
 
     1. Parse user description from the user's message
        If empty: ERROR "No feature description provided"
@@ -268,9 +253,9 @@ Given that feature description, do this:
     7. Identify Key Entities (if data involved)
     8. Return: SUCCESS (spec ready for planning)
 
-5. Write the specification to `.swhat/{FEATURE_SHORT_NAME}/{SPEC_FILE}` using the template structure, replacing placeholders with concrete details derived from the feature description while preserving section order and headings.
+4. Write the specification to `.swhat/{FEATURE_SHORT_NAME}/{SPEC_FILE}` using the template structure, replacing placeholders with concrete details derived from the feature description while preserving section order and headings.
 
-6. **Specification Quality Validation**: After writing the initial spec, validate it against quality criteria:
+5. **Specification Quality Validation**: After writing the initial spec, validate it against quality criteria:
 
    a. **Create Spec Quality Checklist**: Retrieve the checklist template by running `swhat template specification-checklist` and write it to `.swhat/{FEATURE_SHORT_NAME}/requirements.md`, replacing placeholders with feature-specific values.
 
@@ -280,7 +265,7 @@ Given that feature description, do this:
 
    c. **Handle Validation Results**:
 
-      - **If all items pass**: Mark checklist complete and proceed to step 6
+      - **If all items pass**: Mark checklist complete and proceed to step 5
 
       - **If items fail (excluding [NEEDS CLARIFICATION])**:
         1. List the failing items and specific issues
@@ -325,8 +310,7 @@ Given that feature description, do this:
 
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
-7. **Cleanup and Report**:
-   - Delete the temporary files: `.swhat/{FEATURE_SHORT_NAME}/{SPEC_FILE}` and `.swhat/{FEATURE_SHORT_NAME}/requirements.md`
+6. **Report**:
    - Present the final specification content to the user in full
    - Report whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
    - If successful: The spec is ready to be used for implementation planning
@@ -545,15 +529,14 @@ For each checklist item:
 
 ---
 
-## Step 5: Cleanup and Report
+## Step 5: Report
 
-1. Delete temporary files: `.swhat/{FEATURE_SHORT_NAME}/requirements.md`
-2. Present the final specification content to the user in full
-3. Report status:
+1. Present the final specification content to the user in full
+2. Report status:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
-4. **If needs refinement**, ask the user:
+3. **If needs refinement**, ask the user:
 
 > "The specification has some gaps. Would you like to:
 > 1. **Clarify** - Answer the open questions to improve the spec
@@ -765,15 +748,14 @@ For each checklist item:
 
 ---
 
-## Step 5: Cleanup and Report
+## Step 5: Report
 
-1. Delete temporary files: `.swhat/{FEATURE_SHORT_NAME}/requirements.md`
-2. Present the final specification content to the user in full
-3. Report status:
+1. Present the final specification content to the user in full
+2. Report status:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
-4. **If needs refinement**, ask the user:
+3. **If needs refinement**, ask the user:
 
 > "The specification has some gaps. Would you like to:
 > 1. **Clarify** - Answer the open questions to improve the spec
