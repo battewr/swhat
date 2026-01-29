@@ -3,7 +3,7 @@ project(swhat VERSION 0.1.0 LANGUAGES NONE)
 
 # Find required tools
 find_program(UV_EXECUTABLE uv REQUIRED)
-find_program(PYTHON_EXECUTABLE python3 REQUIRED)
+find_program(PYTHON_EXECUTABLE python3 python REQUIRED)
 
 message(STATUS "UV executable: ${UV_EXECUTABLE}")
 message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
@@ -52,10 +52,10 @@ install(CODE "
 ")
 
 # Custom clean target for Python artifacts (named pyclean to avoid CMake reserved name)
+# Note: __pycache__ cleanup is handled in platform-specific build scripts
 add_custom_target(pyclean
     COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_SOURCE_DIR}/dist"
     COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_SOURCE_DIR}/src/swhat.egg-info"
-    COMMAND find "${CMAKE_SOURCE_DIR}" -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Cleaning Python artifacts..."
 )

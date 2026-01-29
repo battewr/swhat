@@ -8,7 +8,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build & Development Commands
 
+### Unix (Linux/macOS)
+
 ```bash
+# Quick build (recommended)
+./clean_build.sh
+
 # CMake build workflow
 cmake -B build                        # Configure
 cmake --build build --target build    # Build package (dist/)
@@ -17,14 +22,39 @@ cmake --build build --target lint     # Run linter
 cmake --build build --target format   # Format code
 cmake --build build --target pyclean  # Clean artifacts
 cmake --install build                 # Install to system
+```
 
-# Manual commands
+### Windows (PowerShell)
+
+```powershell
+# Quick build (recommended)
+.\clean_build.ps1
+
+# CMake build workflow (same commands as Unix)
+cmake -B build                        # Configure
+cmake --build build --target build    # Build package (dist/)
+cmake --build build --target dev      # Dev install (editable)
+cmake --build build --target lint     # Run linter
+cmake --build build --target format   # Format code
+cmake --build build --target pyclean  # Clean artifacts
+
+# If PowerShell execution is restricted
+powershell -ExecutionPolicy Bypass -File clean_build.ps1
+```
+
+### Manual Commands
+
+```bash
+# Unix
 uv venv && source .venv/bin/activate
 uv pip install -e ".[dev]"
 ruff check src/
 ruff format src/
+```
 
-# CLI commands
+### CLI Commands
+
+```bash
 swhat --help
 swhat --version
 ```
@@ -80,3 +110,6 @@ src/swhat/
 ## Active Technologies
 
 - Python 3.10+ with Click 8.0+ for CLI framework
+
+## Recent Changes
+- 002-windows-support: Added PowerShell 5.1+ (Windows default), CMake 3.16+ + UV (cross-platform), CMake (cross-platform)

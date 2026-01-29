@@ -6,28 +6,61 @@ Specification-driven development CLI - Transform natural language feature descri
 
 ### Prerequisites
 
+#### Unix (Linux/macOS)
 - Python 3.10 or higher
 - [UV](https://github.com/astral-sh/uv) package manager
 - CMake 3.16 or higher
 
+#### Windows
+- Windows 10 or later
+- Python 3.10+ (from python.org or Microsoft Store)
+- [UV](https://github.com/astral-sh/uv) package manager: `pip install uv`
+- CMake 3.16+: `winget install Kitware.CMake`
+- PowerShell 5.1+ (included in Windows 10+)
+
 ### From Source (Development)
+
+#### Unix (Linux/macOS)
 
 ```bash
 # Clone the repository
 git clone <repository-url>
 cd swhat
 
-# Configure and setup dev environment
+# Run build script
+./clean_build.sh
+
+# Or manual steps
 cmake -B build
 cmake --build build --target dev
-source .venv/bin/activate
 swhat --version
+```
+
+#### Windows (PowerShell)
+
+```powershell
+# Clone the repository
+git clone <repository-url>
+cd swhat
+
+# Run build script
+.\clean_build.ps1
+
+# Or manual steps
+cmake -B build
+cmake --build build --target dev
+swhat --version
+```
+
+If PowerShell execution is restricted:
+```cmd
+powershell -ExecutionPolicy Bypass -File clean_build.ps1
 ```
 
 ### System Install
 
 ```bash
-# Build and install to system
+# Build and install to system (Unix)
 cmake -B build
 cmake --build build --target build
 cmake --install build  # May require sudo
