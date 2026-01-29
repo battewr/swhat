@@ -78,6 +78,31 @@ swhat --version
 
 ## Development
 
+### Clean Build Scripts
+
+The recommended way to build from a clean state:
+
+#### Unix (Linux/macOS)
+
+```bash
+./clean_build.sh
+```
+
+#### Windows (PowerShell)
+
+```powershell
+.\clean_build.ps1
+```
+
+These scripts perform a complete clean build:
+1. Check prerequisites (cmake, uv, python)
+2. Remove stale build directory (prevents cross-platform cache conflicts)
+3. Configure CMake
+4. Clean Python artifacts and `__pycache__` directories
+5. Build the package
+6. Install in dev mode (editable)
+7. Verify installation with `swhat --version`
+
 ### CMake Build Commands
 
 ```bash

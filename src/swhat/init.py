@@ -132,8 +132,53 @@ Given that feature description, do this:
    - **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
    - **DO NOT** share the location of any temporary folders in the final response.
    - After the spec content, state whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
-   - If successful: The spec is ready to be used for implementation planning
    - If needs refinement: Explain what aspects are unclear and suggest the user provide more details
+
+7. **Next Steps** (only if specification was successful):
+   - After outputting the spec, present the user with next step options:
+     - **Option 1: "Iterate on this plan"** - Refine or clarify specific aspects of the specification
+     - **Option 2: "Help me map out how to accomplish this"** - Create a detailed implementation roadmap (Coming Soon)
+     - **Option 3: "Attempt to implement"** - Start implementation now, iterating as needed
+
+   - **Handle user selection**:
+
+     - **If Option 1 (Iterate)**:
+       1. Ask the user: "What aspects of the specification would you like to refine or clarify?"
+       2. Wait for user response
+       3. Update the spec.md based on their feedback
+       4. Re-run validation and output the updated spec
+       5. Return to the Next Steps prompt
+
+     - **If Option 2 (Map out implementation)**:
+       1. Inform the user: "Implementation roadmapping is coming soon! This feature will help break down the specification into detailed technical tasks and milestones."
+       2. Return to the Next Steps prompt
+
+     - **If Option 3 (Attempt to implement)**:
+       1. Create a new task/agent to handle implementation
+       2. Provide the agent with this context:
+          ```
+          You are implementing a feature based on the following specification.
+
+          ## Feature Summary
+          [Summarize the key points from spec.md: feature name, main user stories, core functional requirements, and success criteria]
+
+          ## Your Instructions
+          1. Analyze the specification and the current codebase
+          2. Determine the best approach to implement this feature
+          3. If you need clarification on HOW to accomplish any requirement, ask the user
+          4. Implement the feature incrementally, testing as you go
+          5. If you encounter blockers or need decisions, ask the user before proceeding
+          6. Focus on delivering a working MVP that satisfies the P1 user story first
+
+          ## Key Requirements
+          [List the functional requirements from the spec]
+
+          ## Success Criteria
+          [List the measurable outcomes from the spec]
+
+          Begin by exploring the codebase and proposing your implementation approach.
+          ```
+       3. Let the implementation agent take over
 
 ## General Guidelines
 
@@ -315,8 +360,53 @@ Given that feature description, do this:
    - **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
    - **DO NOT** share the location of any temporary folders in the final response.
    - After the spec content, state whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
-   - If successful: The spec is ready to be used for implementation planning
    - If needs refinement: Explain what aspects are unclear and suggest the user provide more details
+
+7. **Next Steps** (only if specification was successful):
+   - After outputting the spec, present the user with next step options:
+     - **Option 1: "Iterate on this plan"** - Refine or clarify specific aspects of the specification
+     - **Option 2: "Help me map out how to accomplish this"** - Create a detailed implementation roadmap (Coming Soon)
+     - **Option 3: "Attempt to implement"** - Start implementation now, iterating as needed
+
+   - **Handle user selection**:
+
+     - **If Option 1 (Iterate)**:
+       1. Ask the user: "What aspects of the specification would you like to refine or clarify?"
+       2. Wait for user response
+       3. Update the spec.md based on their feedback
+       4. Re-run validation and output the updated spec
+       5. Return to the Next Steps prompt
+
+     - **If Option 2 (Map out implementation)**:
+       1. Inform the user: "Implementation roadmapping is coming soon! This feature will help break down the specification into detailed technical tasks and milestones."
+       2. Return to the Next Steps prompt
+
+     - **If Option 3 (Attempt to implement)**:
+       1. Create a new task/agent to handle implementation
+       2. Provide the agent with this context:
+          ```
+          You are implementing a feature based on the following specification.
+
+          ## Feature Summary
+          [Summarize the key points from spec.md: feature name, main user stories, core functional requirements, and success criteria]
+
+          ## Your Instructions
+          1. Analyze the specification and the current codebase
+          2. Determine the best approach to implement this feature
+          3. If you need clarification on HOW to accomplish any requirement, ask the user
+          4. Implement the feature incrementally, testing as you go
+          5. If you encounter blockers or need decisions, ask the user before proceeding
+          6. Focus on delivering a working MVP that satisfies the P1 user story first
+
+          ## Key Requirements
+          [List the functional requirements from the spec]
+
+          ## Success Criteria
+          [List the measurable outcomes from the spec]
+
+          Begin by exploring the codebase and proposing your implementation approach.
+          ```
+       3. Let the implementation agent take over
 
 ## General Guidelines
 
@@ -539,14 +629,61 @@ For each checklist item:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
-4. **If needs refinement**, ask the user:
+4. **If needs refinement**, explain what aspects are unclear and suggest the user provide more details, then proceed to Step 6.
 
-> "The specification has some gaps. Would you like to:
-> 1. **Clarify** - Answer the open questions to improve the spec
-> 2. **Proceed anyway** - Start implementation with current spec (may require changes later)
-> 3. **Abandon** - Cancel this feature request"
+5. **If successful**, proceed to Step 6.
 
-If user chooses to proceed anyway, acknowledge the risks and begin implementation.
+---
+
+## Step 6: Next Steps
+
+After outputting the spec, present the user with next step options:
+
+- **Option 1: "Iterate on this plan"** - Refine or clarify specific aspects of the specification
+- **Option 2: "Help me map out how to accomplish this"** - Create a detailed implementation roadmap (Coming Soon)
+- **Option 3: "Attempt to implement"** - Start implementation now, iterating as needed
+
+### Handle User Selection
+
+**If Option 1 (Iterate on this plan)**:
+1. Ask the user: "What aspects of the specification would you like to refine or clarify?"
+2. Wait for user response
+3. Update the spec.md based on their feedback
+4. Re-run validation and output the updated spec
+5. Return to the Next Steps prompt
+
+**If Option 2 (Help me map out how to accomplish this)**:
+1. Inform the user: "Implementation roadmapping is coming soon! This feature will help break down the specification into detailed technical tasks and milestones."
+2. Return to the Next Steps prompt
+
+**If Option 3 (Attempt to implement)**:
+1. Create a new task/agent to handle implementation
+2. Provide the agent with this context:
+
+```
+You are implementing a feature based on the following specification.
+
+## Feature Summary
+[Summarize the key points from spec.md: feature name, main user stories, core functional requirements, and success criteria]
+
+## Your Instructions
+1. Analyze the specification and the current codebase
+2. Determine the best approach to implement this feature
+3. If you need clarification on HOW to accomplish any requirement, ask the user
+4. Implement the feature incrementally, testing as you go
+5. If you encounter blockers or need decisions, ask the user before proceeding
+6. Focus on delivering a working MVP that satisfies the P1 user story first
+
+## Key Requirements
+[List the functional requirements from the spec]
+
+## Success Criteria
+[List the measurable outcomes from the spec]
+
+Begin by exploring the codebase and proposing your implementation approach.
+```
+
+3. Let the implementation agent take over
 
 ---
 
@@ -759,14 +896,61 @@ For each checklist item:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
-4. **If needs refinement**, ask the user:
+4. **If needs refinement**, explain what aspects are unclear and suggest the user provide more details, then proceed to Step 6.
 
-> "The specification has some gaps. Would you like to:
-> 1. **Clarify** - Answer the open questions to improve the spec
-> 2. **Proceed anyway** - Start implementation with current spec (may require changes later)
-> 3. **Abandon** - Cancel this feature request"
+5. **If successful**, proceed to Step 6.
 
-If user chooses to proceed anyway, acknowledge the risks and begin implementation.
+---
+
+## Step 6: Next Steps
+
+After outputting the spec, present the user with next step options:
+
+- **Option 1: "Iterate on this plan"** - Refine or clarify specific aspects of the specification
+- **Option 2: "Help me map out how to accomplish this"** - Create a detailed implementation roadmap (Coming Soon)
+- **Option 3: "Attempt to implement"** - Start implementation now, iterating as needed
+
+### Handle User Selection
+
+**If Option 1 (Iterate on this plan)**:
+1. Ask the user: "What aspects of the specification would you like to refine or clarify?"
+2. Wait for user response
+3. Update the spec.md based on their feedback
+4. Re-run validation and output the updated spec
+5. Return to the Next Steps prompt
+
+**If Option 2 (Help me map out how to accomplish this)**:
+1. Inform the user: "Implementation roadmapping is coming soon! This feature will help break down the specification into detailed technical tasks and milestones."
+2. Return to the Next Steps prompt
+
+**If Option 3 (Attempt to implement)**:
+1. Create a new task/agent to handle implementation
+2. Provide the agent with this context:
+
+```
+You are implementing a feature based on the following specification.
+
+## Feature Summary
+[Summarize the key points from spec.md: feature name, main user stories, core functional requirements, and success criteria]
+
+## Your Instructions
+1. Analyze the specification and the current codebase
+2. Determine the best approach to implement this feature
+3. If you need clarification on HOW to accomplish any requirement, ask the user
+4. Implement the feature incrementally, testing as you go
+5. If you encounter blockers or need decisions, ask the user before proceeding
+6. Focus on delivering a working MVP that satisfies the P1 user story first
+
+## Key Requirements
+[List the functional requirements from the spec]
+
+## Success Criteria
+[List the measurable outcomes from the spec]
+
+Begin by exploring the codebase and proposing your implementation approach.
+```
+
+3. Let the implementation agent take over
 
 ---
 
