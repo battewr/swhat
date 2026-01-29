@@ -4,6 +4,7 @@ import sys
 
 import click
 
+from swhat.init import initialize_project
 from swhat.templates import get_template, list_templates
 
 
@@ -60,6 +61,24 @@ def template(name: str | None, list_flag: bool) -> None:
     # Output template content to stdout
     content, _ = result
     click.echo(content)
+
+
+@main.command()
+def init() -> None:
+    """Initialize the current directory for swhat specification workflow.
+
+    Creates the .swhat/ directory and installs AI agent command files
+    to .claude/commands/ and .roo/commands/.
+
+    Examples:
+
+        swhat init
+
+        cd /path/to/project && swhat init
+    """
+    success = initialize_project()
+    if not success:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
