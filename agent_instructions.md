@@ -37,7 +37,7 @@ swhat init
 
 ## Usage
 
-The following commands and skills are executed within **Claude CLI** or **Roo** during an agentic coding session.
+Open **Claude CLI** or **Roo** at the root of your initialized project directory (where you ran `swhat init`). The agent must be launched from this location to access the swhat commands and skills.
 
 ### Automatic Specification Detection
 
