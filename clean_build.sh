@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# Remove stale build directory (prevents cross-platform cache conflicts)
+if [ -d build ]; then
+    echo "==> Removing stale build directory..."
+    rm -rf build
+fi
+
 echo "==> Configuring CMake..."
 cmake -B build
 

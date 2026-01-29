@@ -26,6 +26,13 @@ if ($missing.Count -gt 0) {
 }
 Write-Host "All prerequisites found."
 
+# Remove stale build directory (prevents cross-platform cache conflicts)
+if (Test-Path build) {
+    Write-Host ""
+    Write-Host "==> Removing stale build directory..."
+    Remove-Item -Recurse -Force build
+}
+
 # T004: Configure CMake
 Write-Host ""
 Write-Host "==> Configuring CMake..."
