@@ -396,6 +396,168 @@ Success criteria must be:
 - "Redis cache hit rate above 80%" (technology-specific)
 """
 
+# Agent skill that auto-triggers when user requests a feature (Claude Code)
+# Goes in .claude/skills/swhat-feature-workflow/SKILL.md
+CLAUDE_FEATURE_SKILL = """\
+---
+name: swhat-feature-workflow
+description: When the user asks to implement, build, create, or add a new feature, use this workflow to clarify requirements and create a specification before writing code. Activates for feature requests, not bug fixes or small tweaks.
+user-invocable: false
+---
+
+# Feature Request Workflow
+
+Before writing any code for a new feature, follow this workflow to ensure requirements are clear and complete.
+
+## Step 1: Clarify the Request
+
+Don't assume you understand. Analyze the request for:
+
+- **Who** is this for? (user role, persona)
+- **What** exactly should it do? (core behavior)
+- **Why** do they need it? (problem being solved)
+- **What's the scope?** (what's included vs excluded)
+
+If any of these are unclear, ask the user targeted questions. Present options when possible:
+
+> "Should this feature support X or Y? Here's the trade-off..."
+
+## Step 2: Identify Gaps
+
+Before proceeding, check for:
+
+- **Missing user flows**: How does the user start? What if they cancel? What shows success/failure?
+- **Edge cases**: Empty states, maximum limits, concurrent access, error conditions
+- **Ambiguous requirements**: Anything that could be interpreted multiple ways
+
+Surface gaps as decision points for the user.
+
+## Step 3: Generate the Specification
+
+Once requirements are clear, run:
+
+```bash
+swhat template specification
+```
+
+Use this template to write a spec to `.swhat/{feature-name}/spec.md` with:
+
+- User stories with acceptance criteria (Given/When/Then)
+- Functional requirements (testable, unambiguous)
+- Success criteria (measurable outcomes)
+
+## Step 4: Validate Before Coding
+
+Run through the checklist:
+
+```bash
+swhat template specification-checklist
+```
+
+Only proceed to implementation when:
+
+- No ambiguous requirements remain
+- All user flows are defined
+- Success criteria are measurable
+- Scope boundaries are clear
+
+## When This Skill Does NOT Apply
+
+- Bug fixes with clear reproduction steps
+- Small tweaks to existing features ("change the button color")
+- Refactoring with no behavior change
+- Documentation updates
+- User explicitly says "just do it" or "skip the spec"
+
+## Why This Matters
+
+Writing code for unclear requirements wastes time. A short conversation about requirements saves hours of rework.
+"""
+
+# Agent skill that auto-triggers when user requests a feature (Roo)
+# Goes in .roo/skills/swhat-feature-workflow/SKILL.md
+ROO_FEATURE_SKILL = """\
+---
+name: swhat-feature-workflow
+description: When the user asks to implement, build, create, or add a new feature, use this workflow to clarify requirements and create a specification before writing code. Activates for feature requests, not bug fixes or small tweaks.
+---
+
+# Feature Request Workflow
+
+Before writing any code for a new feature, follow this workflow to ensure requirements are clear and complete.
+
+## Step 1: Clarify the Request
+
+Don't assume you understand. Analyze the request for:
+
+- **Who** is this for? (user role, persona)
+- **What** exactly should it do? (core behavior)
+- **Why** do they need it? (problem being solved)
+- **What's the scope?** (what's included vs excluded)
+
+If any of these are unclear, ask the user targeted questions. Present options when possible:
+
+> "Should this feature support X or Y? Here's the trade-off..."
+
+## Step 2: Identify Gaps
+
+Before proceeding, check for:
+
+- **Missing user flows**: How does the user start? What if they cancel? What shows success/failure?
+- **Edge cases**: Empty states, maximum limits, concurrent access, error conditions
+- **Ambiguous requirements**: Anything that could be interpreted multiple ways
+
+Surface gaps as decision points for the user.
+
+## Step 3: Generate the Specification
+
+Once requirements are clear, run:
+
+```bash
+swhat template specification
+```
+
+Use this template to write a spec to `.swhat/{feature-name}/spec.md` with:
+
+- User stories with acceptance criteria (Given/When/Then)
+- Functional requirements (testable, unambiguous)
+- Success criteria (measurable outcomes)
+
+## Step 4: Validate Before Coding
+
+Run through the checklist:
+
+```bash
+swhat template specification-checklist
+```
+
+Only proceed to implementation when:
+
+- No ambiguous requirements remain
+- All user flows are defined
+- Success criteria are measurable
+- Scope boundaries are clear
+
+## When This Skill Does NOT Apply
+
+- Bug fixes with clear reproduction steps
+- Small tweaks to existing features ("change the button color")
+- Refactoring with no behavior change
+- Documentation updates
+- User explicitly says "just do it" or "skip the spec"
+
+## Why This Matters
+
+Writing code for unclear requirements wastes time. A short conversation about requirements saves hours of rework.
+"""
+
+
+def _write_file(path: Path, content: str, display_path: str) -> None:
+    """Write a file and report status."""
+    action = "Updated" if path.exists() else "Created"
+    path.write_text(content)
+    click.echo(f"  {action} {display_path}")
+
 
 def initialize_project() -> bool:
     """Initialize the current directory for swhat specification workflow.
@@ -403,7 +565,9 @@ def initialize_project() -> bool:
     Creates:
         - .swhat/ directory for user workspace
         - .claude/commands/swhat.specify.md for Claude Code
+        - .claude/skills/swhat-feature-workflow/SKILL.md for Claude Code
         - .roo/commands/swhat-specify.md for Roo
+        - .roo/skills/swhat-feature-workflow/SKILL.md for Roo
 
     Returns:
         True if initialization succeeded, False otherwise.
@@ -420,30 +584,49 @@ def initialize_project() -> bool:
         swhat_dir.mkdir(parents=True, exist_ok=True)
         click.echo("  Created .swhat/")
 
-    # Create .claude/commands/ and write command file
+    # Claude Code: commands
     claude_commands_dir = cwd / ".claude" / "commands"
     claude_commands_dir.mkdir(parents=True, exist_ok=True)
-    claude_command_file = claude_commands_dir / "swhat.specify.md"
-    if claude_command_file.exists():
-        claude_command_file.write_text(CLAUDE_SPECIFY_COMMAND)
-        click.echo("  Updated .claude/commands/swhat.specify.md")
-    else:
-        claude_command_file.write_text(CLAUDE_SPECIFY_COMMAND)
-        click.echo("  Created .claude/commands/swhat.specify.md")
+    _write_file(
+        claude_commands_dir / "swhat.specify.md",
+        CLAUDE_SPECIFY_COMMAND,
+        ".claude/commands/swhat.specify.md",
+    )
 
-    # Create .roo/commands/ and write command file
-    # Note: Roo uses dashes in command names, not dots
+    # Claude Code: skills
+    claude_skill_dir = cwd / ".claude" / "skills" / "swhat-feature-workflow"
+    claude_skill_dir.mkdir(parents=True, exist_ok=True)
+    _write_file(
+        claude_skill_dir / "SKILL.md",
+        CLAUDE_FEATURE_SKILL,
+        ".claude/skills/swhat-feature-workflow/SKILL.md",
+    )
+
+    # Roo: commands (uses dashes, not dots)
     roo_commands_dir = cwd / ".roo" / "commands"
     roo_commands_dir.mkdir(parents=True, exist_ok=True)
-    roo_command_file = roo_commands_dir / "swhat-specify.md"
-    if roo_command_file.exists():
-        roo_command_file.write_text(ROO_SPECIFY_COMMAND)
-        click.echo("  Updated .roo/commands/swhat-specify.md")
-    else:
-        roo_command_file.write_text(ROO_SPECIFY_COMMAND)
-        click.echo("  Created .roo/commands/swhat-specify.md")
+    _write_file(
+        roo_commands_dir / "swhat-specify.md",
+        ROO_SPECIFY_COMMAND,
+        ".roo/commands/swhat-specify.md",
+    )
 
+    # Roo: skills
+    roo_skill_dir = cwd / ".roo" / "skills" / "swhat-feature-workflow"
+    roo_skill_dir.mkdir(parents=True, exist_ok=True)
+    _write_file(
+        roo_skill_dir / "SKILL.md",
+        ROO_FEATURE_SKILL,
+        ".roo/skills/swhat-feature-workflow/SKILL.md",
+    )
+
+    click.echo("")
     click.echo("Initialization complete!")
-    click.echo("  - Claude Code: use /swhat.specify")
-    click.echo("  - Roo: use /swhat-specify")
+    click.echo("")
+    click.echo("Commands installed:")
+    click.echo("  Claude Code: /swhat.specify <feature description>")
+    click.echo("  Roo:         /swhat-specify <feature description>")
+    click.echo("")
+    click.echo("Skills installed (auto-activate on feature requests):")
+    click.echo("  swhat-feature-workflow - clarifies requirements before coding")
     return True
