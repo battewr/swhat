@@ -13,6 +13,15 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
+## Headless Mode
+
+If the user input contains "headless" or "--headless", operate in **headless mode**:
+- Automatically accept all recommended options for clarifications
+- Make informed decisions using defaults and best practices instead of asking
+- Do not pause for user confirmation at decision points
+- Continue through the entire workflow without interruption
+- Still output the final artifacts and summary
+
 ## Outline
 
 The text the user typed after `/swhat.specify` in the triggering message **is** the feature description. The `$ARGUMENTS` placeholder above contains that text. Do not ask the user to repeat it unless they provided an empty command.

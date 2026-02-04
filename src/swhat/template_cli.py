@@ -8,6 +8,7 @@ from swhat.templates import (
     SPEC_TEMPLATE_CONTENT,
     CHECKLIST_CONTENT,
     PLAN_TEMPLATE_CONTENT,
+    TASKS_TEMPLATE_CONTENT,
 )
 
 # Type alias for registry entries: (content, description)
@@ -18,6 +19,7 @@ TEMPLATES: dict[str, TemplateEntry] = {
     "specification": (SPEC_TEMPLATE_CONTENT, "Feature specification template"),
     "specification-checklist": (CHECKLIST_CONTENT, "Spec quality validation checklist"),
     "plan": (PLAN_TEMPLATE_CONTENT, "Implementation plan template"),
+    "tasks": (TASKS_TEMPLATE_CONTENT, "Task list template for implementation"),
 }
 
 

@@ -17,6 +17,22 @@ When the user asks you to implement, build, create, or add a **new feature**, fo
 
 ---
 
+## Step 0: Confirm Specification Attempt
+
+Before proceeding, ask the user:
+
+> "Would you like to proceed with a detailed specification attempt for this feature?"
+
+**If user chooses No**:
+- Do NOT proceed with the specification workflow
+- Respond: "Understood. Proceeding with original ask..."
+- Proceed with the user's original request without the specification workflow
+
+**If user chooses Yes**:
+- Proceed to Step 1
+
+---
+
 ## Step 1: Generate Feature Short Name
 
 Create a concise short name (2-4 words) for the feature:
@@ -145,19 +161,67 @@ For each checklist item:
 
 ## Step 5: Report
 
-1. Present the final specification content to the user in full
-2. Report status:
+1. **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
+2. **DO NOT** share the location of any temporary folders in the final response.
+3. After the spec content, report status:
    - **Successful**: All checklist items pass, no ambiguities - spec is ready for implementation
    - **Needs refinement**: Details are still too vague - explain what aspects are unclear
 
-3. **If needs refinement**, ask the user:
+4. **If needs refinement**, explain what aspects are unclear and suggest the user provide more details, then proceed to Step 6.
 
-> "The specification has some gaps. Would you like to:
-> 1. **Clarify** - Answer the open questions to improve the spec
-> 2. **Proceed anyway** - Start implementation with current spec (may require changes later)
-> 3. **Abandon** - Cancel this feature request"
+5. **If successful**, proceed to Step 6.
 
-If user chooses to proceed anyway, acknowledge the risks and begin implementation.
+---
+
+## Step 6: Next Steps
+
+After outputting the spec, present the user with next step options:
+
+- **Option 1: "Iterate on this plan"** - Refine or clarify specific aspects of the specification
+- **Option 2: "Help me map out how to accomplish this"** - Create a detailed implementation plan
+- **Option 3: "Attempt to implement"** - Start implementation now, iterating as needed
+
+### Handle User Selection
+
+**If Option 1 (Iterate on this plan)**:
+1. Ask the user: "What aspects of the specification would you like to refine or clarify?"
+2. Wait for user response
+3. Update the spec.md based on their feedback
+4. Re-run validation and output the updated spec
+5. Return to the Next Steps prompt
+
+**If Option 2 (Help me map out how to accomplish this)**:
+1. Execute the `/swhat-plan` command to create a detailed implementation plan
+2. The spec.md is already in conversation history, so no additional context is needed
+
+**If Option 3 (Attempt to implement)**:
+1. Create a new task/agent to handle implementation
+2. Provide the agent with this context:
+
+```
+You are implementing a feature based on the following specification.
+
+## Feature Summary
+[Summarize the key points from spec.md: feature name, main user stories, core functional requirements, and success criteria]
+
+## Your Instructions
+1. Analyze the specification and the current codebase
+2. Determine the best approach to implement this feature
+3. If you need clarification on HOW to accomplish any requirement, ask the user
+4. Implement the feature incrementally, testing as you go
+5. If you encounter blockers or need decisions, ask the user before proceeding
+6. Focus on delivering a working MVP that satisfies the P1 user story first
+
+## Key Requirements
+[List the functional requirements from the spec]
+
+## Success Criteria
+[List the measurable outcomes from the spec]
+
+Begin by exploring the codebase and proposing your implementation approach.
+```
+
+3. Let the implementation agent take over
 
 ---
 

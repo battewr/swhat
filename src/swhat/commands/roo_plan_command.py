@@ -6,6 +6,15 @@ description: Execute the implementation planning workflow using the plan templat
 argument-hint: <optional context or specification path>
 ---
 
+## Headless Mode
+
+If the user input contains "headless" or "--headless", operate in **headless mode**:
+- Automatically accept all recommended options for clarifications
+- Make informed decisions using defaults and best practices instead of asking
+- Do not pause for user confirmation at decision points
+- Continue through the entire workflow without interruption
+- Still output the final artifacts and summary
+
 ## Outline
 
 0. **Prerequisite - Locate Specification**: Check if the conversation history references a specification (spec.md or equivalent).
@@ -81,7 +90,7 @@ argument-hint: <optional context or specification path>
 5. **Next Steps** (only if plan is fully successful, all phases complete, and no iteration required): After outputting the plan, present the user with options:
 
    - **Option 1: "Iterate on this plan"** - Refine or clarify specific aspects of the plan
-   - **Option 2: "Help me map out how to accomplish this"** - Create a detailed implementation roadmap (Coming Soon)
+   - **Option 2: "Generate tasks"** - Create a detailed, actionable task list for implementation
    - **Option 3: "Attempt to implement"** - Start implementation now, iterating as needed
 
    **Handle user selection**:
@@ -93,9 +102,9 @@ argument-hint: <optional context or specification path>
      4. Re-run validation and output the updated plan
      5. Return to the Next Steps prompt
 
-   - **If Option 2 (Help me map out how to accomplish this)**:
-     1. Inform the user: "Implementation roadmapping is coming soon! This feature will help break down the plan into detailed technical tasks and milestones."
-     2. Return to the Next Steps prompt
+   - **If Option 2 (Generate tasks)**:
+     1. Execute the `/swhat-tasks` command to generate a detailed task list
+     2. The plan.md and spec.md are already in conversation history, so no additional context is needed
 
    - **If Option 3 (Attempt to implement)**:
      1. Create a new task/agent to handle implementation

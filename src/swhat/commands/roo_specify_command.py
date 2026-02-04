@@ -6,6 +6,15 @@ description: Create or update the feature specification from a natural language 
 argument-hint: <feature description in natural language>
 ---
 
+## Headless Mode
+
+If the user input contains "headless" or "--headless", operate in **headless mode**:
+- Automatically accept all recommended options for clarifications
+- Make informed decisions using defaults and best practices instead of asking
+- Do not pause for user confirmation at decision points
+- Continue through the entire workflow without interruption
+- Still output the final artifacts and summary
+
 ## Outline
 
 The text the user typed after `/swhat-specify` in the triggering message **is** the feature description. Look at the user's full message to find it. Do not ask the user to repeat it unless they provided an empty command.

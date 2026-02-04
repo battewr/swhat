@@ -1,17 +1,7 @@
-"""Claude Code plan command content."""
-
-CLAUDE_PLAN_COMMAND = """\
 ---
 description: Execute the implementation planning workflow using the plan template to generate design artifacts.
+argument-hint: <optional context or specification path>
 ---
-
-## User Input
-
-```text
-$ARGUMENTS
-```
-
-You **MUST** consider the user input before proceeding (if not empty).
 
 ## Headless Mode
 
@@ -37,7 +27,7 @@ If the user input contains "headless" or "--headless", operate in **headless mod
 
    - **If Option 1 (Generate a new spec)**:
      1. Ask the user: "Please describe the feature you want to implement."
-     2. Execute the `/swhat.specify` command flow with the user's description
+     2. Execute the `/swhat-specify` command flow with the user's description
      3. After specification is complete, continue to step 1
 
    - **If Option 2 (Plan without a spec)**:
@@ -109,8 +99,8 @@ If the user input contains "headless" or "--headless", operate in **headless mod
      4. Re-run validation and output the updated plan
      5. Return to the Next Steps prompt
 
-   - **If Option 2 (Help me map out how to accomplish this)**:
-     1. Execute the `/swhat.tasks` command to generate a detailed task list
+   - **If Option 2 (Generate tasks)**:
+     1. Execute the `/swhat-tasks` command to generate a detailed task list
      2. The plan.md and spec.md are already in conversation history, so no additional context is needed
 
    - **If Option 3 (Attempt to implement)**:
@@ -187,4 +177,3 @@ If the user input contains "headless" or "--headless", operate in **headless mod
 
 - Use absolute paths
 - ERROR on gate failures or unresolved clarifications
-"""

@@ -14,6 +14,8 @@ from swhat.commands import (
     ROO_SPECIFY_COMMAND,
     CLAUDE_PLAN_COMMAND,
     ROO_PLAN_COMMAND,
+    CLAUDE_TASKS_COMMAND,
+    ROO_TASKS_COMMAND,
     CLAUDE_FEATURE_SKILL,
     ROO_FEATURE_SKILL,
 )
@@ -33,9 +35,11 @@ def initialize_project() -> bool:
         - .swhat/ directory for user workspace
         - .claude/commands/swhat.specify.md for Claude Code
         - .claude/commands/swhat.plan.md for Claude Code
+        - .claude/commands/swhat.tasks.md for Claude Code
         - .claude/skills/swhat-feature-workflow/SKILL.md for Claude Code
         - .roo/commands/swhat-specify.md for Roo
         - .roo/commands/swhat-plan.md for Roo
+        - .roo/commands/swhat-tasks.md for Roo
         - .roo/skills/swhat-feature-workflow/SKILL.md for Roo
 
     Returns:
@@ -66,6 +70,11 @@ def initialize_project() -> bool:
         CLAUDE_PLAN_COMMAND,
         ".claude/commands/swhat.plan.md",
     )
+    _write_file(
+        claude_commands_dir / "swhat.tasks.md",
+        CLAUDE_TASKS_COMMAND,
+        ".claude/commands/swhat.tasks.md",
+    )
 
     # Claude Code: skills
     claude_skill_dir = cwd / ".claude" / "skills" / "swhat-feature-workflow"
@@ -89,6 +98,11 @@ def initialize_project() -> bool:
         ROO_PLAN_COMMAND,
         ".roo/commands/swhat-plan.md",
     )
+    _write_file(
+        roo_commands_dir / "swhat-tasks.md",
+        ROO_TASKS_COMMAND,
+        ".roo/commands/swhat-tasks.md",
+    )
 
     # Roo: skills
     roo_skill_dir = cwd / ".roo" / "skills" / "swhat-feature-workflow"
@@ -105,8 +119,10 @@ def initialize_project() -> bool:
     click.echo("Commands installed:")
     click.echo("  Claude Code: /swhat.specify <feature description>")
     click.echo("               /swhat.plan")
+    click.echo("               /swhat.tasks")
     click.echo("  Roo:         /swhat-specify <feature description>")
     click.echo("               /swhat-plan")
+    click.echo("               /swhat-tasks")
     click.echo("")
     click.echo("Skills installed (auto-activate on feature requests):")
     click.echo("  swhat-feature-workflow - clarifies requirements before coding")

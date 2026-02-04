@@ -10,6 +10,15 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
+## Headless Mode
+
+If the user input contains "headless" or "--headless", operate in **headless mode**:
+- Automatically accept all recommended options for clarifications
+- Make informed decisions using defaults and best practices instead of asking
+- Do not pause for user confirmation at decision points
+- Continue through the entire workflow without interruption
+- Still output the final artifacts and summary
+
 ## Outline
 
 The text the user typed after `/swhat.specify` in the triggering message **is** the feature description. The `$ARGUMENTS` placeholder above contains that text. Do not ask the user to repeat it unless they provided an empty command.
@@ -116,10 +125,56 @@ Given that feature description, do this:
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
 6. **Report**:
-   - Present the final specification content to the user in full
-   - Report whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
-   - If successful: The spec is ready to be used for implementation planning
+   - **CRITICAL: Output the ENTIRE contents of spec.md verbatim** - do not summarize, paraphrase, or create tables. Show the full markdown file.
+   - **DO NOT** share the location of any temporary folders in the final response.
+   - After the spec content, state whether the specification was **successful** (all checklist items pass, no ambiguities) or **needs refinement** (details are still too vague, clarifications needed)
    - If needs refinement: Explain what aspects are unclear and suggest the user provide more details
+
+7. **Next Steps** (only if specification was successful):
+   - After outputting the spec, present the user with next step options:
+     - **Option 1: "Iterate on this plan"** - Refine or clarify specific aspects of the specification
+     - **Option 2: "Help me map out how to accomplish this"** - Create a detailed implementation plan
+     - **Option 3: "Attempt to implement"** - Start implementation now, iterating as needed
+
+   - **Handle user selection**:
+
+     - **If Option 1 (Iterate)**:
+       1. Ask the user: "What aspects of the specification would you like to refine or clarify?"
+       2. Wait for user response
+       3. Update the spec.md based on their feedback
+       4. Re-run validation and output the updated spec
+       5. Return to the Next Steps prompt
+
+     - **If Option 2 (Map out implementation)**:
+       1. Execute the `/swhat.plan` command to create a detailed implementation plan
+       2. The spec.md is already in conversation history, so no additional context is needed
+
+     - **If Option 3 (Attempt to implement)**:
+       1. Create a new task/agent to handle implementation
+       2. Provide the agent with this context:
+          ```
+          You are implementing a feature based on the following specification.
+
+          ## Feature Summary
+          [Summarize the key points from spec.md: feature name, main user stories, core functional requirements, and success criteria]
+
+          ## Your Instructions
+          1. Analyze the specification and the current codebase
+          2. Determine the best approach to implement this feature
+          3. If you need clarification on HOW to accomplish any requirement, ask the user
+          4. Implement the feature incrementally, testing as you go
+          5. If you encounter blockers or need decisions, ask the user before proceeding
+          6. Focus on delivering a working MVP that satisfies the P1 user story first
+
+          ## Key Requirements
+          [List the functional requirements from the spec]
+
+          ## Success Criteria
+          [List the measurable outcomes from the spec]
+
+          Begin by exploring the codebase and proposing your implementation approach.
+          ```
+       3. Let the implementation agent take over
 
 ## General Guidelines
 
