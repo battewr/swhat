@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/brbax/src/swhat diff)",
+      "Bash(git -C /home/brbax/src/swhat log --oneline -5)",
+      "Bash(git -C /home/brbax/src/swhat add CLAUDE.md CMakeLists.txt README.md clean_build.sh clean_build.ps1 specs/002-windows-support/)",
+      "Bash(git -C /home/brbax/src/swhat commit -m \"$\\(cat <<''EOF''\nfeat: Add Windows support with PowerShell build script\n\n- Add clean_build.ps1 for Windows builds \\(PowerShell 5.1+\\)\n- Update CMakeLists.txt to find python3 or python \\(Windows compat\\)\n- Move __pycache__ cleanup from CMake to platform-specific scripts\n- Update CLAUDE.md and README.md with Windows instructions\n\nCo-Authored-By: Claude \\(global.anthropic.claude-opus-4-5-20251101-v1:0\\) <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /home/brbax/src/swhat branch -a)",
+      "Bash(git -C /home/brbax/src/swhat checkout master)",
+      "Bash(git -C /home/brbax/src/swhat merge 002-windows-support)"
+    ]
+  }
+}

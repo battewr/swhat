@@ -22,7 +22,7 @@ from swhat.commands import (
 def _write_file(path: Path, content: str, display_path: str) -> None:
     """Write a file and report status."""
     action = "Updated" if path.exists() else "Created"
-    path.write_text(content)
+    path.write_text(content, encoding="utf-8")
     click.echo(f"  {action} {display_path}")
 
 
